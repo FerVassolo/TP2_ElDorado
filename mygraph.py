@@ -4,8 +4,6 @@ from geoPositionCSVReaderFile import geoPositionCSVReader
 latitud, longitud = geoPositionCSVReader("ship_geo_position.csv", 20000, interval = 100)
 latitud2, longitud2 = geoPositionCSVReader("seaquake_geo_position.csv", 7000, interval = 50)
 
-for i in range(150):
-    print(f"{latitud[i]} , {longitud[i]}")
 
 
 plt.plot(latitud, longitud, label="Ship")
