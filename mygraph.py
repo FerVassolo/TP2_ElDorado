@@ -1,9 +1,20 @@
 import matplotlib.pyplot as plt
 from geoPositionCSVReaderFile import geoPositionCSVReader
 
-latitud, longitud = geoPositionCSVReader("ship_geo_position.csv", 20000, interval = 500)
-latitud2, longitud2 = geoPositionCSVReader("seaquake_geo_position.csv", 7000, interval = 100)
+latitud, longitud = geoPositionCSVReader("ship_geo_position.csv", 20000, interval = 100)
+latitud2, longitud2 = geoPositionCSVReader("seaquake_geo_position.csv", 7000, interval = 50)
 
-plt.plot(latitud, longitud)
-plt.plot(latitud2, longitud2)
+for i in range(150):
+    print(f"{latitud[i]} , {longitud[i]}")
+
+
+plt.plot(latitud, longitud, label="Ship")
+plt.plot(latitud2, longitud2, label="Seaquake")
+
+
+plt.xlabel("latitud")
+plt.ylabel("longitud")
+plt.xticks([-40, 0, 40])
+plt.legend()
+plt.grid(True)
 plt.show()

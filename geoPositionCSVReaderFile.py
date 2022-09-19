@@ -13,7 +13,7 @@ def geoPositionCSVReader(
         csvReader = csv.DictReader(csvFile)
 
         for row in itertools.islice(csvReader, lowerRange, uperRange, interval):
-            latitud.append(row["latitud"])
-            longitud.append(row["longitud"])
+            latitud.append(float(row["latitud"]))
+            longitud.append(float(row["longitud"]))
 
     return (latitud, longitud)
