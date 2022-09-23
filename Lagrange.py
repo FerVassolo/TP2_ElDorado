@@ -1,7 +1,9 @@
+import math
 import os
 import csv
 import numpy as np
-from scipy.interpolate import interp1d
+from scipy.interpolate import interp1d, lagrange
+
 """
 public static double Lagrange(double x[], double y[], double z){
 		int n = x.length;
@@ -78,5 +80,37 @@ def biseccion(x1, y1, x2, y2, a, b, cota):
 
     return raiz, float(fun1(raiz))
 
-print(biseccion(seaquake_geo_pos[0], seaquake_geo_pos[1], ship_geo_pos[0], ship_geo_pos[1], 2, 4, 0.001))
+bisec = biseccion(seaquake_geo_pos[0], seaquake_geo_pos[1], ship_geo_pos[0], ship_geo_pos[1], 2, 4, 0.001)
+
+def modulo(x  , y):
+    return math.sqrt(pow(x, 2)+pow(y,2))
+
+
+def search10ClosePoints(name, x, y):
+    latiutud = []
+    longitud = []
+    moduloDeLaRaiz = modulo(x, y)
+    minimumTen = []
+
+    with open (os.path.dirname(os.path.realpath(__file__)) +"/CSVFiles/" + name + ".csv", "r") as csv_file:
+        csv_reader = csv.reader(csv_file)
+        next(csv_reader)
+        i = 0
+        while(i < 10):
+            min = [10000, 10000]
+            minModulo = 10000
+            for row in csv_reader:
+                rowModulo = modulo(float(row[0]) - x, float(row[1]) - y)
+                list = [float(row[0]), float(row[1])]
+                if( rowModulo < minModulo and list not in minimumTen):
+                    minModulo = rowModulo
+                    min = list
+            csv_file.seek(0)
+            next(csv_reader)
+            minimumTen.append(min)
+            i+=1
+        return minimumTen
+
+best10 = search10ClosePoints("ship_geo_position", bisec[0], bisec[1])
+
 
